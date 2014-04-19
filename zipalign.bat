@@ -45,16 +45,31 @@ echo [] Zipaligning...
 del %input%.apk
 zipalign -f -v 4 temp.apk %input%.apk
 IF EXIST %input%.apk (
-goto last
+goto choice
 ) ELSE (
 goto error
 )
 goto zipalign
 
-:last
+:choice
 cls
+choice /c yn /m "[] Do you want to install the APK on your device?"
+IF %ERRORLEVEL%==1 goto push
+IF %ERRORLEVEL%==2 goto last
+goto choice
+
+:push
+echo [] Firing up ADB 1.0.31...
+adb start-server
+echo [] Waiting for device - make sure your device is connected in debugging mode.
+adb wait-for-device
+echo [] Installing...
+adb install %input%.apk
+echo [] Done.
+goto last
+
+:last
 echo [] Removing temporary files...
 del temp.apk
 echo [] Done.
-pause
 exit
