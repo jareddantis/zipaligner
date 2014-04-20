@@ -55,9 +55,11 @@ chmod a+x ./zipalign
 # Check existence
 if [ -f $appname.apk ]
 then
+	rm temp.apk
 	echo -e "${bldcya}Would you like to push to your device now?"
 else
 	echo -e "${bldred}FATAL: Final APK does not exist. Exiting..."
+    mv $appname-original.apk $appname.apk
 	exit 1
 fi
 
@@ -82,4 +84,3 @@ else
 	read -p "Press any key to exit."
 	exit 0
 fi
-
