@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Zipalign/sign script for Linux
+# Zipalign/sign script for Mac OS X
 # by aureljared@XDA.
 
 # Remove scroll buffer
-echo -e '\0033\0143'
+echo -e '\e[3J'
 
 # Colourful terminal output (from AOSPA building script)
 cya=$(tput setaf 6)             #  cyan
@@ -72,10 +72,11 @@ then
 	echo -e '\0033\0143'
 	chmod a+x ./adb
 	echo -e "${cya}Firing up ADB 1.0.31...${txtrst}"
+	./adb kill-server
 	./adb start-server
 	echo -e "${cya}Waiting for device - make sure device is connected in ${bldcya}debugging mode${txtrst}"
 	./adb wait-for-device
-	echo -e "${cya}Installing apk to device...${txtrst}"
+	echo -e "${cya}Installing apk on device...${txtrst}"
 	./adb install $appname.apk
 	echo -e "${bldgrn}Done. Exiting...${txtrst}"
 	./adb kill-server
